@@ -1,0 +1,81 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" count='${fetchCount}'>
+  <entity name="ftts_testhistory">
+    <attribute name="ftts_testhistoryid" />
+    <attribute name="ftts_certificatenumber" />   
+    <attribute name="ftts_teststatus" />
+    <attribute name="ftts_textlanguage" />
+    <attribute name="ftts_starttime" />
+    <link-entity name="contact" from="contactid" to="ftts_person" visible="false" link-type="outer" alias="person">
+      <attribute name="address1_line1" />
+      <attribute name="address1_line2" />
+      <attribute name="address1_line3" />
+      <attribute name="address1_city" />
+      <attribute name="address1_county" />
+      <attribute name="address1_postalcode" />
+      <attribute name="ftts_adiprn" />
+      <attribute name="gendercode" />
+      <attribute name="ftts_title" />
+      <attribute name="lastname" />
+      <attribute name="firstname" />
+      <attribute name="birthdate" />
+      <link-entity name="ftts_licence" from="ftts_person" to="contactid" visible="false" link-type="outer" alias="person.licence">
+        <attribute name="ftts_licence" />
+      </link-entity>
+    </link-entity>
+    <link-entity name="product" from="productid" to="ftts_testtype" link-type="inner" alias="product"> 
+        <attribute name="ftts_examseriescode" />
+    </link-entity>
+<!-- Filter by TARS status -->
+    <filter type="and">
+      <condition attribute="ftts_tarsexportedstatus" operator="eq" value="${tarsExportedStatus}" />
+    </filter>
+<!-- Filter by test status and test type -->
+    <filter type="or">
+      <filter type="and">
+        <condition attribute="ftts_teststatus" operator="in" >
+          <value>${statusPass}</value>
+          <value>${statusFail}</value>
+        </condition>
+        <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="ADI" /> 
+      </filter>
+      <filter type="and">
+        <condition attribute="ftts_teststatus" operator="eq" value="${statusPass}" />
+        <condition attribute="ftts_certificatenumber" operator="not-null"/>
+        <filter type="or">
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="PCV" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="LGV" /> 
+        </filter>
+      </filter>
+      <filter type="and">
+        <condition attribute="ftts_teststatus" operator="eq" value="${statusPass}" />
+        <filter type="or">
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="Car" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="Bike" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="LGV-CPC-Conversion" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="LGV-CPC" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="PCV-CPC-Conversion" /> 
+          <condition attribute="ftts_examseriescode" entityname="product" operator="eq" value="PCV-CPC" /> 
+        </filter>
+      </filter>
+    </filter>
+<!-- Filter by origin - GB resuls only -->
+    <link-entity name="ftts_bookingproduct" from="ftts_bookingproductid" to="ftts_bookingproduct" visible="false" link-type="inner" alias="bookingproduct">
+      <attribute name="ftts_reference" />
+      <link-entity name="account" from="accountid" to="ftts_ihttcid" link-type="inner" alias="bookingproduct.account"> 
+        <filter type="and">
+          <filter type="or">
+            <condition attribute="ftts_organisationtype" operator="in">
+              <value>${ihttc}</value>
+              <value>${ihttcHeadOffice}</value>
+            </condition>
+            <condition attribute="ftts_remit" operator="in">
+              <value>${dvsaEngland}</value>
+              <value>${dvsaScotland}</value>
+              <value>${dvsaWales}</value>
+            </condition>
+          </filter>
+        </filter>
+      </link-entity>
+    </link-entity>
+  </entity>
+</fetch>
