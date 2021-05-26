@@ -92,7 +92,7 @@
     "@dvsa/ftts-role-validation": "0.0.9",
     "@dvsa/healthcheck": "0.3.0",
     "ajv": "6.12.4",
-    "applicationinsights": "1.7.5",
+    "applicationinsights": "1.8.10",
     "crypto-js": "4.0.0",
     "dateformat": "3.0.3",
     "dotenv": "8.2.0",
