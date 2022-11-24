@@ -1,0 +1,466 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "examples": [
+        {
+            "TTResults_Message_Group": {
+                "$": {
+                    "xmlns": "uri:DSATheoryTest"
+                },
+                "MsgHeader": {
+                    "$": {
+                        "DailyFileSequenceNumber": "3",
+                        "FileSequenceNumber": 2,
+                        "ProcessedDate": "01/08/2020",
+                        "RecordCount": 1
+                    }
+                },
+                "Candidate": [
+                    {
+                        "$": {
+                            "CandReference": 1
+                        },
+                        "CandContactDetails": {
+                            "AddressLine1": "adress line 1",
+                            "AddressLine2": "address line 2",
+                            "AddressLine3": "address line 3",
+                            "AddressLine4": "address city",
+                            "AddressLine5": "address county",
+                            "PostCode": "postalcode"
+                        },
+                        "CandPersonalDetails": {
+                            "DriverNumber": "20406011",
+                            "ADIPRN": "10",
+                            "Gender": "F",
+                            "Title": "Miss",
+                            "Surname": "Walker",
+                            "Forenames": "Ellie",
+                            "DOB": "1989-03-12"
+                        },
+                        "Result": {
+                            "Version": 1,
+                            "SessionPaperID": "000016055",
+                            "ExamSeriesCode": "LGV",
+                            "LanguageID": "ENG",
+                            "FormName": "LGV",
+                            "CertificateNumber": "999999999",
+                            "TestSessionDate": "26/06/2020",
+                            "TestResult": 1
+                        }
+                    }
+                ],
+                "MsgTrailer": {
+                    "$": {
+                        "DailyFileSequenceNumber": "3",
+                        "FileSequenceNumber": 2,
+                        "RecordCount": 1
+                    }
+                }
+            }
+        }
+    ],
+    "required": [
+        "TTResults_Message_Group"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "TTResults_Message_Group": {
+            "type": "object",
+            "title": "The TTResults_Message_Group schema",
+            "required": [
+                "$",
+                "MsgHeader",
+                "Candidate",
+                "MsgTrailer"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "$": {
+                    "type": "object",
+                    "required": [
+                        "xmlns"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "xmlns": {
+                            "type": "string",
+                            "const": "uri:DSATheoryTest"
+                        }
+                    }
+                },
+                "MsgHeader": {
+                    "type": "object",
+                    "required": [
+                        "$"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "$": {
+                            "type": "object",
+                            "required": [
+                                "DailyFileSequenceNumber",
+                                "FileSequenceNumber",
+                                "ProcessedDate",
+                                "RecordCount"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "DailyFileSequenceNumber": {
+                                    "type": "string"
+                                },
+                                "FileSequenceNumber": {
+                                    "type": "integer",
+                                    "minimum": 1000000
+                                },
+                                "ProcessedDate": {
+                                    "type": "string"
+                                },
+                                "RecordCount": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "Candidate": {
+                    "type": "array",
+                    "additionalItems": false,
+                    "items": {
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "required": [
+                                    "$",
+                                    "CandContactDetails",
+                                    "CandPersonalDetails",
+                                    "Result"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "$": {
+                                        "type": "object",
+                                        "required": [
+                                            "CandReference"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "CandReference": {
+                                                "type": "integer",
+                                                "minimum": 1
+                                            }
+                                        }
+                                    },
+                                    "CandContactDetails": {
+                                        "type": "object",
+                                        "required": [
+                                            "AddressLine1",
+                                            "PostCode"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "AddressLine1": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine2": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine3": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine4": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine5": {
+                                                "type": "string"
+                                            },
+                                            "PostCode": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "CandPersonalDetails": {
+                                        "type": "object",
+                                        "required": [
+                                            "DriverNumber",
+                                            "Title",
+                                            "Surname",
+                                            "Forenames",
+                                            "DOB"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "DriverNumber": {
+                                                "type": "string"
+                                            },
+                                            "ADIPRN": {
+                                                "$ref": "#/definitions/POSITIVE_INT"
+                                            },
+                                            "Gender": {
+                                                "$ref": "#/definitions/GENDER"
+                                            },
+                                            "Title": {
+                                                "$ref": "#/definitions/TITLE"
+                                            },
+                                            "Surname": {
+                                                "type": "string"
+                                            },
+                                            "Forenames": {
+                                                "type": "string"
+                                            },
+                                            "DOB": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "Result": {
+                                        "type": "object",
+                                        "required": [
+                                            "Version",
+                                            "SessionPaperID",
+                                            "ExamSeriesCode",
+                                            "LanguageID",
+                                            "FormName",
+                                            "TestSessionDate",
+                                            "TestResult"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "Version": {
+                                                "type": "integer",
+                                                "const": 1
+                                            },
+                                            "SessionPaperID": {
+                                                "$ref": "#/definitions/SESSION_PAPER_ID"
+                                            },
+                                            "ExamSeriesCode": {
+                                                "type": "string",
+                                                "minLength": 1
+                                            },
+                                            "LanguageID": {
+                                                "$ref": "#/definitions/LANGUAGE_ID"
+                                            },
+                                            "FormName": {
+                                                "type": "string"
+                                            },
+                                            "CertificateNumber": {
+                                                "$ref": "#/definitions/POSITIVE_INT"
+                                            },
+                                            "TestSessionDate": {
+                                                "type": "string"
+                                            },
+                                            "TestResult": {
+                                                "$ref": "#/definitions/TEST_RESULT"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "type": "object",
+                                "required": [
+                                    "$",
+                                    "CandContactDetails",
+                                    "CandPersonalDetails",
+                                    "NegatedResult"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "$": {
+                                        "type": "object",
+                                        "required": [
+                                            "CandReference"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "CandReference": {
+                                                "type": "integer",
+                                                "minimum": 1
+                                            }
+                                        }
+                                    },
+                                    "CandContactDetails": {
+                                        "type": "object",
+                                        "required": [
+                                            "AddressLine1",
+                                            "PostCode"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "AddressLine1": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine2": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine3": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine4": {
+                                                "type": "string"
+                                            },
+                                            "AddressLine5": {
+                                                "type": "string"
+                                            },
+                                            "PostCode": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "CandPersonalDetails": {
+                                        "type": "object",
+                                        "required": [
+                                            "DriverNumber",
+                                            "Title",
+                                            "Surname",
+                                            "Forenames",
+                                            "DOB"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "DriverNumber": {
+                                                "type": "string"
+                                            },
+                                            "ADIPRN": {
+                                                "type": "string"
+                                            },
+                                            "Gender": {
+                                                "$ref": "#/definitions/GENDER"
+                                            },
+                                            "Title": {
+                                                "$ref": "#/definitions/TITLE"
+                                            },
+                                            "Surname": {
+                                                "type": "string"
+                                            },
+                                            "Forenames": {
+                                                "type": "string"
+                                            },
+                                            "DOB": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "NegatedResult": {
+                                        "type": "object",
+                                        "required": [
+                                            "Version",
+                                            "SessionPaperID",
+                                            "ExamSeriesCode",
+                                            "LanguageID",
+                                            "FormName",
+                                            "TestSessionDate",
+                                            "TestResult"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "Version": {
+                                                "type": "integer",
+                                                "const": 1
+                                            },
+                                            "SessionPaperID": {
+                                                "$ref": "#/definitions/SESSION_PAPER_ID"
+                                            },
+                                            "ExamSeriesCode": {
+                                                "type": "string",
+                                                "minLength": 1
+                                            },
+                                            "LanguageID": {
+                                                "$ref": "#/definitions/LANGUAGE_ID"
+                                            },
+                                            "FormName": {
+                                                "type": "string"
+                                            },
+                                            "CertificateNumber": {
+                                                "type": "string"
+                                            },
+                                            "TestSessionDate": {
+                                                "type": "string"
+                                            },
+                                            "TestResult": {
+                                                "$ref": "#/definitions/TEST_RESULT"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "MsgTrailer": {
+                    "type": "object",
+                    "required": [
+                        "$"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "$": {
+                            "type": "object",
+                            "required": [
+                                "DailyFileSequenceNumber",
+                                "FileSequenceNumber",
+                                "RecordCount"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "DailyFileSequenceNumber": {
+                                    "type": "string"
+                                },
+                                "FileSequenceNumber": {
+                                    "type": "integer",
+                                    "minimum": 1000000
+                                },
+                                "RecordCount": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "POSITIVE_INT": {
+            "type": "string",
+            "pattern": "^[1-9]\\d*$"
+        },
+        "GENDER": {
+            "type": "string",
+            "enum": [
+                "M",
+                "F"
+            ]
+        },
+        "TITLE": {
+            "type": "string",
+            "enum": [
+                "Mr",
+                "Ms",
+                "Mx",
+                "Mrs",
+                "Miss",
+                "Dr"
+            ]
+        },
+        "LANGUAGE_ID": {
+            "type": "string",
+            "enum": [
+                "ENG",
+                "WEL"
+            ]
+        },
+        "TEST_RESULT": {
+            "type": "string",
+            "enum": [
+                "P",
+                "F"
+            ]
+        },
+        "SESSION_PAPER_ID": {
+            "type": "string",
+            "pattern": "^[0-9]{9}$"
+        }
+    }
+}

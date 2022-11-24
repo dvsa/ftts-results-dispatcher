@@ -1,0 +1,53 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" count='${fetchCount}' aggregate="true">
+  <entity name="ftts_testhistory">
+    <attribute name="ftts_testhistoryid" alias="ftts_testhistoryid" groupby="true" />
+    <attribute name="ftts_mcqtotalscore" alias="ftts_mcqtotalscore" groupby="true" />
+
+    <link-entity name="product" from="productid" to="ftts_testtype" link-type="inner" alias="product"> 
+        <attribute name="productnumber" alias="productnumber" groupby="true" />
+    </link-entity>
+
+    <!-- Filter by TARS status -->
+    <filter type="and">
+      <condition attribute="ftts_tarsexportedstatus" operator="eq" value="${tarsExportedStatus}" />
+    </filter>
+
+    <!-- Filter by test status -->
+    <filter type="and">
+      <condition attribute="ftts_teststatus" operator="in" >
+        <value>${statusPass}</value>
+        <value>${statusFail}</value>
+        <value>${statusNotStarted}</value>
+      </condition>
+    </filter>
+
+    <!-- Filter by test type -->
+    <filter type="and">
+      <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberAdiOrAmi}" /> 
+    </filter>
+    
+    <link-entity name="ftts_bookingproduct" from="ftts_bookingproductid" to="ftts_bookingproduct" visible="false" link-type="inner" alias="ftts_bookingproduct">
+      <attribute name="ftts_paymentreferencenumber" alias="ftts_paymentreferencenumber" groupby="true" />
+      <!-- Filter by origin - DVA results only -->
+      <link-entity name="account" from="accountid" to="ftts_ihttcid" link-type="inner" alias="ftts_bookingproduct.account"> 
+        <filter type="and">
+            <condition attribute="ftts_remit" operator="eq" value="${dva}" />
+        </filter>
+      </link-entity>
+
+    </link-entity>
+
+    <!-- Sum all ftts_score fields for each test item grouped by common ftts_topic (band) -->
+    <link-entity name="ftts_testsection" from="ftts_testhistory" to="ftts_testhistoryid" link-type="inner" alias="ftts_testsection">
+        <!-- Filter by section type - MCQTestResult only (value 1)-->
+        <filter type="and">
+          <condition attribute="ftts_sectiontype" operator="eq" value="1" />
+        </filter>
+      <link-entity name="ftts_testitem" from="ftts_testsection" to="ftts_testsectionid" link-type="inner" alias="ftts_testitem">
+        <attribute name="ftts_topic" alias="ftts_topic" groupby="true"/>
+        <attribute name="ftts_score" alias="candidateTotalPerBand" aggregate="sum" />
+      </link-entity>
+    </link-entity>
+
+  </entity>
+</fetch>

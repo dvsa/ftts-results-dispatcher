@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "name": "dvaLearnerResultsDispatcher",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "%DVA_LEARNER_CRON_TIMER%"
+    }
+  ],
+  "disabled": "%AzureWebJobs.V1_DVA_Results_Dispatcher.Disabled%",
+  "scriptFile": "../dist/dvaLearnerResultsDispatcher/index.js"
+}

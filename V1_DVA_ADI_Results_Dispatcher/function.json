@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+    "name": "dvaAdiResultsDispatcher",
+    "type": "timerTrigger",
+    "direction": "in",
+    "schedule": "%DVA_ADI_CRON_TIMER%"
+    }
+  ],
+  "scriptFile": "../dist/dvaAdiResultsDispatcher/index.js"
+}
+  

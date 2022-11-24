@@ -1,0 +1,161 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "certificateNumber": {
+            "$ref": "#/definitions/POSITIVE_INT"
+        },
+        "testStatus": {
+            "$ref": "#/definitions/TEST_STATUS"
+        },
+        "textLanguage": {
+            "$ref": "#/definitions/LANGUAGE"
+        },
+        "startTime": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "addressLine1": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "addressLine2": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "addressLine3": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "addressLine4": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "addressLine5": {
+            "type": "string",
+            "maxLength": 30
+        },
+        "postCode": {
+            "type": "string",
+            "maxLength": 10
+        },
+        "adiprn": {
+            "type": "string"
+        },
+        "genderCode": {
+            "$ref": "#/definitions/GENDER"
+        },
+        "title": {
+            "$ref": "#/definitions/TITLE"
+        },
+        "otherTitle": {
+            "type": "string"
+        },
+        "firstName": {
+            "type": "string"
+        },
+        "lastName": {
+            "type": "string",
+            "maxLength": 43
+        },
+        "birthDate": {
+            "type": "string"
+        },
+        "driverNumber": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 16
+        },
+        "productId": {
+            "$ref": "#/definitions/PRODUCT_ID"
+        },
+        "bookingReference": {
+            "type": "string"
+        },
+        "personId": {
+            "type": "string"
+        },
+        "productNumber": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "id",
+        "driverNumber",
+        "lastName",
+        "firstName",
+        "birthDate",
+        "bookingReference",
+        "productId",
+        "textLanguage",
+        "startTime",
+        "testStatus"
+    ],
+    "definitions": {
+        "POSITIVE_INT": {
+            "type": "string",
+            "pattern": "^[1-9]\\d*$"
+        },
+        "GENDER": {
+            "enum": [
+                "Male",
+                "Female",
+                "Unknown"
+            ],
+            "type": "string"
+        },
+        "TITLE": {
+            "enum": [
+                "Mr",
+                "Ms",
+                "Mx",
+                "Mrs",
+                "Miss",
+                "Dr"
+            ],
+            "type": "string"
+        },
+        "LANGUAGE": {
+            "enum": [
+                "English",
+                "Cymraeg (Welsh)"
+            ],
+            "type": "string"
+        },
+        "TEST_STATUS": {
+            "enum": [
+                "Fail",
+                "Pass",
+                "Not started",
+                "Incomplete",
+                "Negated"
+            ],
+            "type": "string"
+        },
+        "PRODUCT_ID": {
+            "enum": [
+                "1001",
+                "2001",
+                "3001",
+                "3002",
+                "3003",
+                "3004",
+                "4001",
+                "4002",
+                "4003",
+                "4004",
+                "5001",
+                "5002",
+                "5003",
+                "6001",
+                "7001",
+                "8001"
+            ],
+            "type": "string"
+        }
+    }
+}

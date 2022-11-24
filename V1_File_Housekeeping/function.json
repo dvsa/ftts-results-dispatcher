@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "%FILE_HOUSEKEEPING_CRON_TIMER%"
+    }
+  ],
+  "scriptFile": "../dist/fileHousekeeping/index.js"
+}

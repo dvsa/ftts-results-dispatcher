@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "tarsResultsDispatcher",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "%TARS_CRON_TIMER%"
+    }
+  ],
+  "scriptFile": "../dist/tarsResultsDispatcher/index.js"
+}

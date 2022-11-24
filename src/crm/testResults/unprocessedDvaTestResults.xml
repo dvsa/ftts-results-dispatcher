@@ -1,0 +1,83 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false" count='${fetchCount}'>
+  <entity name="ftts_testhistory">
+    <attribute name="ftts_testhistoryid" />
+    <attribute name="ftts_certificatenumber" />   
+    <attribute name="ftts_teststatus" />
+    <attribute name="ftts_textlanguage" />
+    <attribute name="ftts_starttime" />
+    <link-entity name="contact" from="contactid" to="ftts_person" visible="false" link-type="outer" alias="person">
+      <attribute name="contactid" />
+      <attribute name="address1_line1" />
+      <attribute name="address1_line2" />
+      <attribute name="address1_line3" />
+      <attribute name="address1_city" />
+      <attribute name="address1_county" />
+      <attribute name="address1_postalcode" />
+      <attribute name="ftts_adiprn" />
+      <attribute name="gendercode" />
+      <attribute name="ftts_title" />
+      <attribute name="ftts_othertitle" />
+      <attribute name="lastname" />
+      <attribute name="firstname" />
+      <attribute name="birthdate" />
+      <link-entity name="ftts_licence" from="ftts_person" to="contactid" visible="false" link-type="outer" alias="person.licence">
+        <attribute name="ftts_licence" />
+      </link-entity>
+    </link-entity>
+    <link-entity name="product" from="productid" to="ftts_testtype" link-type="inner" alias="product"> 
+        <attribute name="productid" />
+        <attribute name="productnumber" />
+    </link-entity>
+
+    <!-- Filter by TARS status -->
+    <filter type="and">
+      <condition attribute="ftts_tarsexportedstatus" operator="eq" value="${tarsExportedStatus}" />
+    </filter>
+
+    <!-- Filter by test status and test type -->
+    <filter type="or">
+      <!-- For Car and Motorcycle, LGV CPC, LGV CPC Conversion tests, PCV CPC, PCV CPC Conversion, Taxi
+            get results with test status "pass" AND "fail" -->
+      <filter type="and">
+        <condition attribute="ftts_teststatus" operator="in" >
+          <value>${statusPass}</value>
+          <value>${statusFail}</value>
+        </condition>
+        <filter type="or">
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberCar}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberMotorcycle}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberLGVCPC}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberLGVCPCConversion}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberPCVCPC}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberPCVCPCConversion}" /> 
+            <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberTaxi}" /> 
+        </filter>
+      </filter>
+      
+      <!-- For LGV and PCV tests, get results with only test status "pass" AND have a certificate number -->
+      <!-- Assumption is that certificate number will be populated only if both MC and HPT are passed  -->
+      <filter type="and">
+        <condition attribute="ftts_teststatus" operator="eq" value="${statusPass}" />
+        <condition attribute="ftts_certificatenumber" operator="not-null"/>
+        <filter type="or">
+          <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberLGVMC}" /> 
+          <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberLGVHPT}" /> 
+          <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberPCVMC}" /> 
+          <condition attribute="productnumber" entityname="product" operator="eq" value="${productNumberPCVHPT}" /> 
+        </filter>
+      </filter>
+    </filter>
+    
+    <!-- Filter by origin - DVA results only -->
+    <link-entity name="ftts_bookingproduct" from="ftts_bookingproductid" to="ftts_bookingproduct" visible="false" link-type="inner" alias="bookingproduct">
+      <attribute name="ftts_reference" />
+      <link-entity name="account" from="accountid" to="ftts_ihttcid" link-type="inner" alias="bookingproduct.account"> 
+        <filter type="and">
+            <condition attribute="ftts_remit" operator="in">
+                <value>${dva}</value>
+            </condition>
+        </filter>
+      </link-entity>
+    </link-entity>
+  </entity>
+</fetch>
